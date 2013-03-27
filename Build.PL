@@ -25,6 +25,8 @@ my $builder = Module::Build->new(
         %{ $prereqs->{test}->{requires}   || {}},
     },
 
+    extra_linker_flags => ['-framework Foundation', '-framework AudioUnit'],
+
     no_index    => { 'directory' => [ 'inc' ] },
     name        => 'Mac-AUHAL',
     module_name => 'Mac::AUHAL',
@@ -39,3 +41,21 @@ my $builder = Module::Build->new(
 );
 $builder->create_build_script();
 
+# .xs -> .m hack
+open my $fh, '>>', 'Build' or die $!;
+print $fh <<'__CODE__';
+BEGIN {
+    package Module::Build;
+    use File::Copy;
+
+    sub compile_c {
+        my ($self, $file, %args) = @_;
+
+        (my $m_file = $file) =~ s/\.c$/.m/;
+        move($file, $m_file) or die $!;
+
+        $self->SUPER::compile_c($m_file, %args);
+    }
+}
+__CODE__
+close $fh;
