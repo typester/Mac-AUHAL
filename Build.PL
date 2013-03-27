@@ -25,7 +25,8 @@ my $builder = Module::Build->new(
         %{ $prereqs->{test}->{requires}   || {}},
     },
 
-    extra_linker_flags => ['-framework Foundation', '-framework AudioUnit'],
+    extra_compiler_flags => ['-Wall'],
+    extra_linker_flags => ['-framework', 'Foundation', '-framework', 'AudioUnit' ],
 
     no_index    => { 'directory' => [ 'inc' ] },
     name        => 'Mac-AUHAL',
