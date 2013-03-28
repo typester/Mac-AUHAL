@@ -1,3 +1,7 @@
+requires 'perl' => '5.010';
+requires 'Cocoa::EventLoop';
+requires 'Data::Validator';
+
 on test => sub {
     requires 'Test::More' => 0.98;
 };

@@ -23,7 +23,6 @@ sub set_format {
 
     my $args = $rule->validate(@_);
 
-
     $self->_set_format(
         $args->{sample_rate},
         $args->{channels},
